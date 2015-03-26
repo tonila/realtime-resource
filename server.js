@@ -34,7 +34,12 @@ function createListener(name) {
     console.log('connection ' + name);
     socket.on('save', function (data, cb) {
       console.log('save test');
-      db.save(name, data).nodeify(cb);
+      db.save(name, data).nodeify(function(err, res) {
+        cb(err, res);
+        if (!err) {
+          socket.broadcast.emit('value', res);
+        }
+      });
     });
     socket.on('get', function (data, cb) {
       console.log('get test');
