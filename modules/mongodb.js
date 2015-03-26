@@ -1,9 +1,11 @@
 "use strict";
-module.exports = function() {
+module.exports = function(connection_string) {
   var debug = require('debug')('server:mongodb');
   var pmongo = require('promised-mongo');
   // default to a 'localhost' configuration:
-  var connection_string = 'livion_dev:devLivion@ds063859.mongolab.com:63859/reservation_dev';
+  if (!connection_string) {
+    throw 'db connection_string must be defined';
+  }
   // if OPENSHIFT env variables are present, use the available connection info:
   if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
