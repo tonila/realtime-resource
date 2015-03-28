@@ -22,7 +22,7 @@
   //var EventEmitter = require('event-emitter');
   var io = require('socket.io-client');
 
-  function RealRecord(name, data, socket) {
+  function Record(name, data, socket) {
     this._shallowClearAndCopy = function(src, des) {
       for (var key in src) {
         var o = src[key];
@@ -40,7 +40,7 @@
     this._socket = socket;
   }
 
-  RealRecord.prototype.save = function (callback) {
+  Record.prototype.save = function (callback) {
     var data = {};
     this._shallowClearAndCopy(this, data);
     this._socket.emit('save', data, function(err, res) {
@@ -50,7 +50,7 @@
     });
   }
 
-  RealRecord.prototype.remove = function (callback) {
+  Record.prototype.remove = function (callback) {
     if (!this._id) {
       throw "can't remove record without id";
     }
@@ -61,7 +61,7 @@
     });
   }
 
-  //RealRecord.prototype = new EventEmitter();
+  //Record.prototype = new EventEmitter();
 
   function Resource(name) {
     this._name = name;
@@ -76,7 +76,7 @@
         if (typeof res === 'object') {
           result = [];
           for (var i = 0, len = res.length; i < len; i++) {
-            result.push(new RealRecord(req._name, res[i], req._socket));
+            result.push(new Record(req._name, res[i], req._socket));
           }
         }
         callback(err, result);
@@ -85,7 +85,7 @@
   };
 
   Resource.prototype.create = function (data) {
-    return new RealRecord(this._name, data, this._socket);
+    return new Record(this._name, data, this._socket);
   };
 
   Resource.prototype.disconnect = function () {
@@ -97,7 +97,7 @@
 function Api() {
   var api = this;
   api.createRecord = function(name) {
-    return new RealRecord(name);
+    return new Record(name);
   }
 }
 Api.prototype = new EventEmitter();
