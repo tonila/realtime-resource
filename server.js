@@ -33,7 +33,7 @@ function createListener(name) {
   .on('connection', function (socket) {
     console.log('connection ' + name);
     socket.on('save', function (data, cb) {
-      console.log('save test');
+      //console.log('save test');
       db.save(name, data).nodeify(function(err, res) {
         cb(err, res);
         if (!err) {
@@ -42,13 +42,18 @@ function createListener(name) {
       });
     });
     socket.on('get', function (data, cb) {
-      console.log('get test');
+      //console.log('get test');
       db.get(name, data).nodeify(cb);
+    });
+    socket.on('remove', function (id, cb) {
+      //console.log('remove test', id);
+      db.remove(name, id).nodeify(cb);
     });
   });
 }
 
 createListener('test');
+createListener('perf');
 
 app.listen(3000, function() {
   console.log('server listening in 3000');

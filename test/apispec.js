@@ -1,8 +1,8 @@
 'use strict';
 /* jshint jasmine: true */
 
-var Api = require('../api');
-var tests;
+var Resource = require('../resource');
+var tests, perf, perfs;
 
 var matchers = {
   toBeInstanceOf: function(expected) {
@@ -19,36 +19,20 @@ var matchers = {
   }
 }
 
-/*var promiseHandler = function(promise, done) {
-  promise.then(function() {
-    done();
-  }).catch(function(err) {
-    expect(err).toBeFalsy();
-    done();
-  });
-}*/
-
-describe('api tests', function() {
+describe('resource tests', function() {
   beforeEach(function() {
     this.addMatchers(matchers);
   });
-
-  /*it("should connect", function(done) {
-    api = new Api();
-    console.log(api)
-    api.on('connect', function() {
-      done();
-    });
-  });*/
   /*it("should save record", function(done) {
-    var test = new Api('test', {'one': 'two'});
+    var test = new Resource('test');
+    test = test.create({'one': 'two'});
     test.save(function(err) {
       expect(err).toBeFalsy();
       done();
     });
   });*/
-  it("should get records", function(done) {
-    var test = new Api('test');
+  /*it("should get records", function(done) {
+    var test = new Resource('test');
     test.get({}, function(err, res) {
       expect(err).toBeFalsy();
       //console.log(res);
@@ -70,5 +54,62 @@ describe('api tests', function() {
       tests[i].five = 'six';
       tests[i].save(cb);
     }
+  });*/
+  it("should save 1000 record", function(done) {
+    var reqs = 0;
+    var cb = function(err) {
+      reqs--;
+      expect(err).toBeFalsy();
+      if (reqs === 0) {
+        done();
+      }
+    }
+    var perf = new Resource('perf');
+    for (var i = 0; i < 1000; i++) {
+      reqs++;
+      var p = perf.create({no: i});
+      p.save(cb);
+    }
+  });
+  it("should get 1000 records", function(done) {
+    perf = new Resource('perf');
+    perf.get({}, function(err, res) {
+      expect(err).toBeFalsy();
+      console.log('length', res.length);
+      perfs = res;
+      done();
+    });
+  });
+  /*it("should update 1000 records", function(done) {
+    var reqs = 0;
+    var cb = function(err) {
+      reqs--;
+      expect(err).toBeFalsy();
+      if (reqs === 0) {
+        done();
+      }
+    }
+    for (var i = 0, len = perfs.length; i < len; i++) {
+      reqs++;
+      perfs[i].five = 'six';
+      perfs[i].save(cb);
+    }
+  });*/
+  it("should remove 1000 record", function(done) {
+    var reqs = 0;
+    var cb = function(err) {
+      reqs--;
+      expect(err).toBeFalsy();
+      if (reqs === 0) {
+        done();
+      }
+    }
+    for (var i = 0, len = perfs.length; i < len; i++) {
+      reqs++;
+      perfs[i].remove(cb);
+    }
+  });
+  it("should disconnect resource", function() {
+    perf.disconnect();
   });
 });
