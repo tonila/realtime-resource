@@ -1,5 +1,4 @@
 'use strict';
-//var fs = require('fs');
 var db = new (require('./modules/mongodb'))('127.0.0.1:27017/RealRecord');
 if (process.env.NODE_ENV !== 'production') {
   if (!process.env.DEBUG) {
@@ -18,7 +17,6 @@ function createListener(name) {
       db.save(name, data).nodeify(function(err, res) {
         cb(err, res);
         if (!err) {
-          //socket.broadcast.emit('save', data);
           room.emit('save', null, data);
         }
       });
@@ -32,7 +30,6 @@ function createListener(name) {
       db.remove(name, id).nodeify(function(err) {
         cb(err);
         if (!err) {
-          //socket.broadcast.emit('remove', id);
           room.emit('remove', null, id);
         }
       });
