@@ -22,7 +22,7 @@
   //var EventEmitter = require('event-emitter');
   var io = require('socket.io-client');
 
-  function Record(name, data, socket) {
+  function Record(name, socket, data) {
     this._shallowClearAndCopy = function(src, des) {
       for (var key in src) {
         var o = src[key];
@@ -76,7 +76,7 @@
         if (typeof res === 'object') {
           result = [];
           for (var i = 0, len = res.length; i < len; i++) {
-            result.push(new Record(req._name, res[i], req._socket));
+            result.push(new Record(req._name, req._socket, res[i]));
           }
         }
         callback(err, result);
@@ -85,7 +85,7 @@
   };
 
   Resource.prototype.create = function (data) {
-    return new Record(this._name, data, this._socket);
+    return new Record(this._name, this._socket, data);
   };
 
   Resource.prototype.disconnect = function () {
