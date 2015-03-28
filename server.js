@@ -14,26 +14,26 @@ function createListener(name) {
   .on('connection', function (socket) {
     console.log('connection ' + name);
     socket.on('save', function (data, cb) {
-      //console.log('save test');
+      console.log('save test');
       db.save(name, data).nodeify(function(err, res) {
         cb(err, res);
         if (!err) {
           //socket.broadcast.emit('save', data);
-          room.emit('save', data);
+          room.emit('save', null, data);
         }
       });
     });
     socket.on('get', function (data, cb) {
-      //console.log('get test');
+      console.log('get test');
       db.get(name, data).nodeify(cb);
     });
     socket.on('remove', function (id, cb) {
-      //console.log('remove test', id);
+      console.log('remove test', id);
       db.remove(name, id).nodeify(function(err) {
         cb(err);
         if (!err) {
           //socket.broadcast.emit('remove', id);
-          room.emit('remove', id);
+          room.emit('remove', null, id);
         }
       });
     });

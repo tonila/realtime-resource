@@ -23,38 +23,6 @@ describe('resource tests', function() {
   beforeEach(function() {
     this.addMatchers(matchers);
   });
-  /*it("should save record", function(done) {
-    var test = new Resource('test');
-    test = test.create({'one': 'two'});
-    test.save(function(err) {
-      expect(err).toBeFalsy();
-      done();
-    });
-  });*/
-  /*it("should get records", function(done) {
-    var test = new Resource('test');
-    test.get({}, function(err, res) {
-      expect(err).toBeFalsy();
-      //console.log(res);
-      tests = res;
-      done();
-    });
-  });
-  it("should update all record", function(done) {
-    var reqs = 0;
-    var cb = function(err) {
-      reqs--;
-      expect(err).toBeFalsy();
-      if (reqs === 0) {
-        done();
-      }
-    }
-    for (var i = 0, len = tests.length; i < len; i++) {
-      reqs++;
-      tests[i].five = 'six';
-      tests[i].save(cb);
-    }
-  });*/
   it("should save 1000 record", function(done) {
     var reqs = 0;
     var cb = function(err) {
@@ -82,8 +50,8 @@ describe('resource tests', function() {
   });
   it("should receive events on update", function(done) {
     var j = 0;
-    var fn = function(data) {
-      console.log('on save', data)
+    var fn = function(err, data) {
+      console.log(err, data);
       j++;
       if (j === 1000) {
         done();
