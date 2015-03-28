@@ -80,7 +80,21 @@ describe('resource tests', function() {
       done();
     });
   });
-  /*it("should update 1000 records", function(done) {
+  it("should receive events on update", function(done) {
+    var j = 0;
+    perf.on('save', function(data) {
+      console.log('on save', data)
+      j++;
+      if (j === 1000) {
+        done();
+      }
+    });
+    for (var i = 0, len = perfs.length; i < len; i++) {
+      perfs[i].tsst = 'tsst';
+      perfs[i].save();
+    }
+  });
+  it("should update 1000 records", function(done) {
     var reqs = 0;
     var cb = function(err) {
       reqs--;
@@ -94,8 +108,8 @@ describe('resource tests', function() {
       perfs[i].five = 'six';
       perfs[i].save(cb);
     }
-  });*/
-  it("should remove 1000 record", function(done) {
+  });
+  it("should remove 1000 records", function(done) {
     var reqs = 0;
     var cb = function(err) {
       reqs--;
