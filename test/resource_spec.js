@@ -82,13 +82,15 @@ describe('resource tests', function() {
   });
   it("should receive events on update", function(done) {
     var j = 0;
-    perf.on('save', function(data) {
+    var fn = function(data) {
       console.log('on save', data)
       j++;
       if (j === 1000) {
         done();
+        perf.removeListener('save', fn);
       }
-    });
+    }
+    perf.on('save', fn);
     for (var i = 0, len = perfs.length; i < len; i++) {
       perfs[i].tsst = 'tsst';
       perfs[i].save();

@@ -106,6 +106,25 @@
     this._listeners[name].push(callback);
   };
 
+  Resource.prototype.removeListener = function (name, fn) {
+    var l = this._listeners[name];
+    if (!l) {
+      return;
+    }
+    var i, len = l.length;
+    for (i = 0; i < len; i++) {
+      if (fn === l[i]) {
+        l.splice(i, 1);
+        break;
+      }
+    }
+  };
+
+  Resource.prototype.removeListeners = function () {
+    this._listeners.save = [];
+    this._listeners.remove = [];
+  };
+
   Resource.prototype.disconnect = function () {
     this._socket.disconnect();
   };
