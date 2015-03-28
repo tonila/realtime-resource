@@ -7,12 +7,10 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-function handler (/*req, res*/) {}
-
-var app = require('http').createServer(handler);
+var app = require('http').createServer(function (/*req, res*/) {});
 var io = require('socket.io')(app);
 function createListener(name) {
-  io.of(name)
+  var room = io.of(name)
   .on('connection', function (socket) {
     console.log('connection ' + name);
     socket.on('save', function (data, cb) {
@@ -20,7 +18,8 @@ function createListener(name) {
       db.save(name, data).nodeify(function(err, res) {
         cb(err, res);
         if (!err) {
-          socket.broadcast.emit('value', res);
+          //socket.broadcast.emit('save', data);
+          room.emit('save', data);
         }
       });
     });
@@ -30,7 +29,13 @@ function createListener(name) {
     });
     socket.on('remove', function (id, cb) {
       //console.log('remove test', id);
-      db.remove(name, id).nodeify(cb);
+      db.remove(name, id).nodeify(function(err) {
+        cb(err);
+        if (!err) {
+          //socket.broadcast.emit('remove', id);
+          room.emit('remove', id);
+        }
+      });
     });
   });
 }

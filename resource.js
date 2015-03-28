@@ -64,8 +64,19 @@
   //Record.prototype = new EventEmitter();
 
   function Resource(name) {
+    var l = this._listeners = {save:[], remove:[]};
     this._name = name;
     this._socket = io.connect(url + this._name);
+    this._socket.on('save', function(data) {
+      for (var i = 0, len = l.save.length; i < len; i++) {
+        l.save[i](data);
+      }
+    });
+    this._socket.on('remove', function(id) {
+      for (var i = 0, len = l.remove.length; i < len; i++) {
+        l.remove[i](id);
+      }
+    });
   }
 
   Resource.prototype.get = function (data, callback) {
@@ -86,6 +97,13 @@
 
   Resource.prototype.create = function (data) {
     return new Record(this._name, this._socket, data);
+  };
+
+  Resource.prototype.on = function (name, callback) {
+    if (name !== 'save' && name !== 'remove') {
+      throw 'listener ' + name + ' is not supported';
+    }
+    this._listeners[name].push(callback);
   };
 
   Resource.prototype.disconnect = function () {
