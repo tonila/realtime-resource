@@ -76,6 +76,6 @@ resource.on('remove', function(err, id) {
 });
 ```
 
-## Licence ##
+## License ##
 
 MIT
