@@ -30,7 +30,6 @@ npm test
 ### Create ###
 
 ```
-#!javascript
 var resource = new Resource('test');
 var test = resource.create({one:1, two:2});
 test.save(function(err) {
@@ -41,7 +40,6 @@ test.save(function(err) {
 ### Read ###
 
 ```
-#!javascript
 var resource = new Resource('test');
 var query = {} // get all
 resource.get(query, function(err, data) {
@@ -52,7 +50,6 @@ resource.get(query, function(err, data) {
 ### Update ###
 
 ```
-#!javascript
 test.three = 3;
 test.save();
 ```
@@ -60,14 +57,12 @@ test.save();
 ### Delete ###
 
 ```
-#!javascript
 test.remove();
 ```
 
 ### Events ###
 
 ```
-#!javascript
 resource.on('save', function(err, data) {
     console.log('data saved', data);
 });
