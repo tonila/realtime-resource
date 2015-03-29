@@ -6999,9 +6999,7 @@ function toArray(list, index) {
 module.exports=require('xvZeu7');
 },{}],"xvZeu7":[function(require,module,exports){
 'use strict';
-/* global define*/
 
-// https://github.com/umdjs/umd
 var url = 'http://localhost:3000/';
 //var EventEmitter = require('event-emitter');
 var io = require('socket.io-client');
@@ -7025,9 +7023,11 @@ function Record(name, socket, data) {
 }
 
 Record.prototype.save = function (callback) {
+  var rec = this;
   var data = {};
   this._shallowClearAndCopy(this, data);
   this._socket.emit('save', data, function(err, res) {
+    rec._id = res._id;
     if (callback) {
       callback(err, res);
     }
