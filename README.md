@@ -13,7 +13,11 @@ grunt
 
 ### Running tests ###
 
-Prerequisities: Server must be running in separate terminal
+**Prerequisities:** 
+
+* Mongodb is installed and running in localhost.
+
+* Server is running in separate terminal
 
 Open a new terminal and run:
 
