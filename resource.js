@@ -48,15 +48,16 @@ Record.prototype.remove = function (callback) {
 //Record.prototype = new EventEmitter();
 
 function Resource(name) {
-  var l = this._listeners = {save:[], remove:[]};
-  this._name = name;
-  this._socket = io.connect(url + this._name);
-  this._socket.on('save', function(err, data) {
+  var reso = this;
+  var l = reso._listeners = {save:[], remove:[]};
+  reso._name = name;
+  reso._socket = io.connect(url + reso._name);
+  reso._socket.on('save', function(err, data) {
     for (var i = 0, len = l.save.length; i < len; i++) {
-      l.save[i](err, data);
+      l.save[i](err, reso.create(data));
     }
   });
-  this._socket.on('remove', function(err, id) {
+  reso._socket.on('remove', function(err, id) {
     for (var i = 0, len = l.remove.length; i < len; i++) {
       l.remove[i](err, id);
     }
@@ -64,14 +65,14 @@ function Resource(name) {
 }
 
 Resource.prototype.get = function (data, callback) {
-  var req = this;
+  var reso = this;
   this._socket.emit('get', data, function(err, res) {
     if (callback) {
       var result;
       if (typeof res === 'object') {
         result = [];
         for (var i = 0, len = res.length; i < len; i++) {
-          result.push(new Record(req._name, req._socket, res[i]));
+          result.push(new Record(reso._name, reso._socket, res[i]));
         }
       }
       callback(err, result);
