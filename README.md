@@ -11,7 +11,7 @@ npm install
 grunt
 ```
 
-### Running tests ###
+### Run tests ###
 
 **Prerequisities:** 
 
@@ -19,7 +19,7 @@ grunt
 
 * Server is running in separate terminal
 
-Open a new terminal and run:
+**Open a new terminal and run:**
 
 ```
 npm test
