@@ -23,6 +23,13 @@ describe('resource tests', function() {
   beforeEach(function() {
     this.addMatchers(matchers);
   });
+  it("record should contain _id after save", function(done) {
+    perf = new Resource('test');
+    var p = perf.create({one: 1, two: 2});
+    p.save(function(err) {
+      expect(p._id).toBeDefined();
+    });
+  });  
   it("should save 1000 record", function(done) {
     var reqs = 0;
     var cb = function(err) {
