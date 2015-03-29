@@ -43,7 +43,8 @@ test.save(function(err) {
 ```
 #!javascript
 var resource = new Resource('test');
-resource.get({}, function(err, data) {
+var query = {} // get all
+resource.get(query, function(err, data) {
     console.log('here the data', data);
 });
 ```
