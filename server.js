@@ -1,5 +1,5 @@
 'use strict';
-var db = new (require('./modules/mongodb'))('127.0.0.1:27017/RealRecord');
+var db = new (require('./lib/mongodb'))('127.0.0.1:27017/RealRecord');
 if (process.env.NODE_ENV !== 'production') {
   if (!process.env.DEBUG) {
     process.env.DEBUG = 'server:*';
