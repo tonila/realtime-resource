@@ -4,7 +4,7 @@ CRUD (create, read, update, delete) over Socket.io.
 
 ### Getting Started ###
 
-Clone the repo and run
+Clone the repo and start server by runing the following:
 
 ```
 npm install
@@ -13,7 +13,8 @@ grunt
 
 ### Running tests ###
 
-Server must be running in separate terminal
+Prerequisities: Server must be running in separate terminal
+
 Open a new terminal and run:
 
 ```
