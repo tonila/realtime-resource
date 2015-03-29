@@ -23,9 +23,11 @@ function Record(name, socket, data) {
 }
 
 Record.prototype.save = function (callback) {
+  var rec = this;
   var data = {};
   this._shallowClearAndCopy(this, data);
   this._socket.emit('save', data, function(err, res) {
+    rec._id = res._id;
     if (callback) {
       callback(err, res);
     }

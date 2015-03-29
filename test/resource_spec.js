@@ -24,12 +24,18 @@ describe('resource tests', function() {
     this.addMatchers(matchers);
   });
   it("record should contain _id after save", function(done) {
-    perf = new Resource('test');
-    var p = perf.create({one: 1, two: 2});
-    p.save(function(err) {
-      expect(p._id).toBeDefined();
+    var test = new Resource('test');
+    var t = test.create({one: 1, two: 2});
+    t.save(function(err) {
+      expect(err).toBeFalsy();
+      expect(t._id).toBeDefined();
+      t.remove(function(err) {
+        expect(err).toBeFalsy();
+        test.disconnect();
+        done();
+      })
     });
-  });  
+  });
   it("should save 1000 record", function(done) {
     var reqs = 0;
     var cb = function(err) {
