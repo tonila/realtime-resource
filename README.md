@@ -1,6 +1,6 @@
 # realtime-resource v0.0.1 #
 
-CRUD (create, read, update, delete) using Socket.io and mongodb.
+CRUD (create, read, update, delete) using Socket.io and Mongodb.
 
 ### Getting Started ###
 
