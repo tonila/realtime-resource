@@ -14,7 +14,7 @@ grunt
 ### Running tests ###
 
 Server must be running in separate terminal
-Open a new terminal and run tests:
+Open a new terminal and run:
 
 ```
 npm test
