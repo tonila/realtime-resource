@@ -22,10 +22,8 @@ npm test
 
 ## API ##
 
-### save ###
+### Create ###
 
-Create and update record.
- 
 ```
 #!javascript
 var resource = new Resource('test');
@@ -35,6 +33,42 @@ test.save(function(err) {
 });
 ```
 
+### Read ###
+
+```
+#!javascript
+var resource = new Resource('test');
+resource.get({}, function(err, data) {
+    console.log('here the data', data);
+});
+```
+
+### Update ###
+
+```
+#!javascript
+test.three = 3;
+test.save();
+```
+
+### Delete ###
+
+```
+#!javascript
+test.remove();
+```
+
+### Events ###
+
+```
+#!javascript
+resource.on('save', function(err, data) {
+    console.log('data saved', data);
+});
+resource.on('remove', function(err, id) {
+    console.log('data removed', id);
+});
+```
 
 ## Licence ##
 
