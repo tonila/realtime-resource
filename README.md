@@ -1,6 +1,6 @@
 # realtime-resource v0.0.1 #
 
-CRUD (create, read, update, delete) over Socket.io.
+CRUD (create, read, update, delete) using Socket.io and Mongodb.
 
 ### Getting Started ###
 
@@ -11,11 +11,15 @@ npm install
 grunt
 ```
 
-### Running tests ###
+### Run tests ###
 
-Prerequisities: Server must be running in separate terminal
+**Prerequisities:** 
 
-Open a new terminal and run:
+* Mongodb is installed and running in localhost.
+
+* Server is running in separate terminal
+
+**Open a new terminal and run:**
 
 ```
 npm test
@@ -28,7 +32,7 @@ npm test
 ```
 #!javascript
 var resource = new Resource('test');
-var test = resource.create({one:'1', two:'2'});
+var test = resource.create({one:1, two:2});
 test.save(function(err) {
     console.log('resource saved');
 });
@@ -39,7 +43,8 @@ test.save(function(err) {
 ```
 #!javascript
 var resource = new Resource('test');
-resource.get({}, function(err, data) {
+var query = {} // get all
+resource.get(query, function(err, data) {
     console.log('here the data', data);
 });
 ```
@@ -71,6 +76,6 @@ resource.on('remove', function(err, id) {
 });
 ```
 
-## Licence ##
+## License ##
 
 MIT
