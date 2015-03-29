@@ -32,7 +32,7 @@ npm test
 ```
 #!javascript
 var resource = new Resource('test');
-var test = resource.create({one:'1', two:'2'});
+var test = resource.create({one:1, two:2});
 test.save(function(err) {
     console.log('resource saved');
 });
