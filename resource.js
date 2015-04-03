@@ -1,7 +1,6 @@
 'use strict';
 
 var url = 'http://localhost:3000/';
-//var EventEmitter = require('event-emitter');
 var io = require('socket.io-client');
 
 function Record(name, socket, data) {
@@ -11,6 +10,7 @@ function Record(name, socket, data) {
       if (src.hasOwnProperty(key) &&
           typeof o !== 'object' &&
           typeof o !== 'function' &&
+          key.charAt(0) !== '$' &&
           (key === '_id' ||
            key.charAt(0) !== '_')) {
         des[key] = o;
